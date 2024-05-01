@@ -14,11 +14,20 @@ pipeline {
             }
             post {
                 success {
-                    emailaction(recipient: 's220459698@deakin.edu.au', subject: 'Unit/Integration Tests Passed!', body: 'Unit and Integration Tests successful!', attachment: '**/test-results.xml') 
+                    emailext (
+                        recipient: 's220459698@deakin.edu.au', 
+                        subject: 'Unit/Integration Tests Passed!', 
+                        body: 'Unit and Integration Tests successful!', 
+                        attachmentsPattern: '**/test-results.xml'
+                    )
                 }
                 failure {
-
-                    emailaction(recipient: 's220459698@deakin.edu.au', subject: 'Unit/Integration Tests Failed!', body: 'Unit and Integration Tests failed!', attachment: '**/test-results.xml') 
+                    emailext (
+                        recipient: 's220459698@deakin.edu.au', 
+                        subject: 'Unit/Integration Tests Failed!', 
+                        body: 'Unit and Integration Tests failed!', 
+                        attachmentsPattern: '**/test-results.xml'
+                    )
                 }
             }
         }
@@ -28,7 +37,12 @@ pipeline {
             }
             post {
                 failure {
-                    emailaction(recipient: 's220459698@deakin.edu.au', subject: 'Code Analysis Failed!', body: 'Code analysis identified issues!', attachment: '**/sonar-report.xml') 
+                    emailext (
+                        recipient: 's220459698@deakin.edu.au', 
+                        subject: 'Code Analysis Failed!', 
+                        body: 'Code analysis identified issues!', 
+                        attachmentsPattern: '**/sonar-report.xml'
+                    )
                 }
             }
         }
@@ -38,7 +52,12 @@ pipeline {
             }
             post {
                 failure {
-                    emailaction(recipient: 'youremail@example.com', subject: 'Security Scan Failed!', body: 'Security vulnerabilities found!', attachment: '**/security-scan-report.txt') // Update recipient address and attachment path
+                    emailext (
+                        recipient: 's220459698@deakin.edu.au', 
+                        subject: 'Security Scan Failed!', 
+                        body: 'Security vulnerabilities found!', 
+                        attachmentsPattern: '**/security-scan-report.txt'
+                    )
                 }
             }
         }
