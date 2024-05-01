@@ -15,14 +15,14 @@ pipeline {
       post {
         success {
           emailext(
-            to: 's220459698@deakin.edu.au',
+            to: 'hashi.dilumi@gmail.com',
             subject: 'Unit/Integration Tests Passed!',
             body: 'Unit and Integration Tests successful!'
           )
         }
         failure {
           emailext(
-            to: 's220459698@deakin.edu.au',
+            to: 'hashi.dilumi@gmail.com',
             subject: 'Unit/Integration Tests Failed!',
             body: 'Unit and Integration Tests failed!'
           )
@@ -36,7 +36,7 @@ pipeline {
       post {
         failure {
           emailext(
-            to: 's220459698@deakin.edu.au',
+            to: 'hashi.dilumi@gmail.com',
             subject: 'Code Analysis Failed!',
             body: 'Code analysis identified issues!'
           )
@@ -50,7 +50,7 @@ pipeline {
       post {
         failure {
           emailext(
-            to: 's220459698@deakin.edu.au',
+            to: 'hashi.dilumi@gmail.com',
             subject: 'Security Scan Failed!',
             body: 'Security vulnerabilities found!'
           )
