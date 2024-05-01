@@ -82,8 +82,13 @@ pipeline {
     
     post {
         always {
-            // Archive additional files to attach
-            archiveArtifacts artifacts: 'build.log', excludes: ''
+            // Archive the build log if it exists
+            script {
+                def buildLogFilePath = "${env.WORKSPACE}/build.log"
+                if (fileExists(buildLogFilePath)) {
+                    archiveArtifacts artifacts: 'build.log', excludes: ''
+                }
+            }
             
             // Attach the archived files
             emailext (
