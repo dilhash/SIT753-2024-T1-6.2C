@@ -36,7 +36,7 @@ pipeline {
                 echo 'Analyzing code with SonarQube...' 
             }
             post {
-                  success {
+                success {
                     emailext (
                         to: 'dilumb2024@gmail.com', 
                         subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Code Analysis Passed!", 
@@ -59,13 +59,14 @@ pipeline {
                 echo 'BlackDuck Scanning...' 
             }
             post {
-                 success {
+                success {
                     emailext (
                         to: 'dilumb2024@gmail.com', 
                         subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - BlackDuck Scan Passed!", 
                         body: "Security vulnerabilities check passed: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}",
                         attachLog: true // Attach the build log
                     )
+                }
                 failure {
                     emailext (
                         to: 'dilumb2024@gmail.com', 
@@ -85,6 +86,24 @@ pipeline {
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running integration tests on staging environment...' 
+            }
+            post {
+                success {
+                    emailext (
+                        to: 'dilumb2024@gmail.com', 
+                        subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Integration Tests on Staging Passed!", 
+                        body: "Integration tests on staging environment passed! Pipeline: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}",
+                        attachLog: true // Attach the build log
+                    )
+                }
+                failure {
+                    emailext (
+                        to: 'dilumb2024@gmail.com', 
+                        subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Integration Tests on Staging Failed!", 
+                        body: "Integration tests on staging environment failed! Pipeline: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}",
+                        attachLog: true // Attach the build log
+                    )
+                }
             }
         }
         stage('Deploy to Production') {
