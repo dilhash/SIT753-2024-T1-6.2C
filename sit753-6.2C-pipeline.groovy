@@ -110,6 +110,7 @@ pipeline {
             steps {
                 echo 'Provision AWS Resources in Prod AWS Account..'
                 echo 'Deploy Application to Prod AWS..'
+                echo "for autobuild test"
             }
         }
     }
