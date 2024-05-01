@@ -17,16 +17,14 @@ pipeline {
           emailext(
             to: 's220459698@deakin.edu.au',
             subject: 'Unit/Integration Tests Passed!',
-            body: 'Unit and Integration Tests successful!',
-            attach: '**/test-results.xml'
+            body: 'Unit and Integration Tests successful!'
           )
         }
         failure {
           emailext(
             to: 's220459698@deakin.edu.au',
             subject: 'Unit/Integration Tests Failed!',
-            body: 'Unit and Integration Tests failed!',
-            attach: '**/test-results.xml'
+            body: 'Unit and Integration Tests failed!'
           )
         }
       }
@@ -40,8 +38,7 @@ pipeline {
           emailext(
             to: 's220459698@deakin.edu.au',
             subject: 'Code Analysis Failed!',
-            body: 'Code analysis identified issues!',
-            attach: '**/sonar-report.xml'
+            body: 'Code analysis identified issues!'
           )
         }
       }
@@ -55,8 +52,7 @@ pipeline {
           emailext(
             to: 's220459698@deakin.edu.au',
             subject: 'Security Scan Failed!',
-            body: 'Security vulnerabilities found!',
-            attach: '**/security-scan-report.txt' // Update recipient address and attachment path
+            body: 'Security vulnerabilities found!'
           )
         }
       }
