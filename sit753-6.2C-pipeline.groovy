@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Code Analysis') {
             steps {
-                echo 'Analyzing code with SonarQube...' // Replace with your code analysis tool
+                echo 'Analyzing code with SonarQube...' 
             }
             post {
                 failure {
@@ -34,7 +34,7 @@ pipeline {
         }
         stage('Security Scan') {
             steps {
-                echo 'Scanning for vulnerabilities with SAST scanner...' 
+                echo 'BlackDuck Scanning...' 
             }
             post {
                 failure {
@@ -44,7 +44,8 @@ pipeline {
         }
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying application to staging server...' 
+                echo 'Provision AWS Resources in QA AWS Account..'
+                echo 'Deploy Application to QA AWS..' 
             }
         }
         stage('Integration Tests on Staging') {
@@ -54,7 +55,8 @@ pipeline {
         }
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying application to production server...' 
+                echo 'Provision AWS Resources in Prod AWS Account..'
+                echo 'Deploy Application to Prod AWS..'
             }
         }
     }
