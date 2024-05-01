@@ -18,6 +18,8 @@ pipeline {
                         to: 'dilumb2024@gmail.com', 
                         subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Unit/Integration Tests Passed!", 
                         body: "Unit and Integration Tests successful! Pipeline: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}"
+                        attachmentsPattern: '**/test-results.xml',
+                        attachments: 'build.log' // Attach the build log
                         
                     )
                 }
@@ -26,6 +28,8 @@ pipeline {
                         to: 'dilumb2024@gmail.com', 
                         subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Unit/Integration Tests Failed!", 
                         body: "Unit and Integration Tests failed! Pipeline: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}"
+                        attachmentsPattern: '**/test-results.xml',
+                        attachments: 'build.log' // Attach the build log
                         
                     )
                 }
