@@ -18,7 +18,7 @@ pipeline {
                         to: 'dilumb2024@gmail.com', 
                         subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Unit/Integration Tests Passed!", 
                         body: "Unit and Integration Tests successful! Pipeline: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}",
-                        attachments: 'build.log' // Attach the build log
+                        attachLog: true // Attach the build log
                     )
                 }
                 failure {
@@ -26,7 +26,7 @@ pipeline {
                         to: 'dilumb2024@gmail.com', 
                         subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Unit/Integration Tests Failed!", 
                         body: "Unit and Integration Tests failed! Pipeline: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}",
-                        attachments: 'build.log' // Attach the build log
+                        attachLog: true // Attach the build log
                     )
                 }
             }
@@ -41,7 +41,7 @@ pipeline {
                         to: 'dilumb2024@gmail.com', 
                         subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Code Analysis Failed!", 
                         body: "Code analysis identified issues! Pipeline: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}",
-                        attachments: 'build.log' // Attach the build log
+                        attachLog: true // Attach the build log
                     )
                 }
             }
@@ -56,7 +56,7 @@ pipeline {
                         to: 'dilumb2024@gmail.com', 
                         subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Security Scan Failed!", 
                         body: "Security vulnerabilities found! Pipeline: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}",
-                        attachments: 'build.log' // Attach the build log
+                        attachLog: true // Attach the build log
                     )
                 }
             }
@@ -82,13 +82,15 @@ pipeline {
     
     post {
         always {
-            // Attach files matching the pattern
+            // Archive additional files to attach
+            archiveArtifacts artifacts: 'build.log', excludes: ''
+            
+            // Attach the archived files
             emailext (
                 to: 'dilumb2024@gmail.com', 
                 subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Build Log and Other Attachments", 
                 body: "Pipeline: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}",
-                attachmentsPattern: '**/*',
-                attachments: 'build.log' // Attach the build log separately
+                attachLog: true // Attach the build log
             )
         }
     }
