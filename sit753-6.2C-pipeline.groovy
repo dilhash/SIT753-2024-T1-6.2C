@@ -1,44 +1,60 @@
 pipeline {
     agent any
 
-    environment {
-        DIRECTORY_PATH = 'path/to/your/code'  // Replace with your actual directory path
-        TESTING_ENVIRONMENT = 'QA1'
-        PRODUCTION_ENVIRONMENT = "${env.USER}" // Uses your username for production
-    }
-
     stages {
         stage('Build') {
             steps {
-                echo 'Fetching the source code from the directory path specified by the environment variable.'
-                echo 'Compiling the code and generating any necessary artifacts.'
+                echo 'Building code with Maven...' 
             }
         }
-        stage('Test') {
+        stage('Unit and Integration Tests') {
             steps {
-                echo 'Running unit tests.'
-                echo 'Running integration tests.'
+                echo 'Running unit tests with JUnit...' 
+                echo 'Running integration tests with Selenium...' 
+            }
+            post {
+                success {
+                    emailaction(recipient: 's220459698@deakin.edu.au', subject: 'Unit/Integration Tests Passed!', body: 'Unit and Integration Tests successful!', attachment: '**/test-results.xml') 
+                }
+                failure {
+
+                    emailaction(recipient: 's220459698@deakin.edu.au', subject: 'Unit/Integration Tests Failed!', body: 'Unit and Integration Tests failed!', attachment: '**/test-results.xml') 
+                }
             }
         }
-        stage('Code Quality Check') {
+        stage('Code Analysis') {
             steps {
-                echo 'Checking the quality of the code.'
+                echo 'Analyzing code with SonarQube...' // Replace with your code analysis tool
+            }
+            post {
+                failure {
+                    emailaction(recipient: 's220459698@deakin.edu.au', subject: 'Code Analysis Failed!', body: 'Code analysis identified issues!', attachment: '**/sonar-report.xml') 
+                }
             }
         }
-        stage('Deploy') {
+        stage('Security Scan') {
             steps {
-                echo "Deploying the application to a testing environment specified by the environment variable: ${TESTING_ENVIRONMENT}"
+                echo 'Scanning for vulnerabilities with SAST scanner...' 
+            }
+            post {
+                failure {
+                    emailaction(recipient: 'youremail@example.com', subject: 'Security Scan Failed!', body: 'Security vulnerabilities found!', attachment: '**/security-scan-report.txt') // Update recipient address and attachment path
+                }
             }
         }
-        stage('Approval') {
+        stage('Deploy to Staging') {
             steps {
-                echo 'Pausing for manual approval...'
-                sleep 10
+                echo 'Deploying application to staging server...' 
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Running integration tests on staging environment...' 
             }
         }
         stage('Deploy to Production') {
             steps {
-                echo "Deploying the code to the production environment: ${PRODUCTION_ENVIRONMENT}"
+                echo 'Deploying application to production server...' 
             }
         }
     }
