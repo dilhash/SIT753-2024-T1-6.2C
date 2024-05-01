@@ -36,6 +36,13 @@ pipeline {
                 echo 'Analyzing code with SonarQube...' 
             }
             post {
+                success{
+                    emailext{
+                        to: 'dilumb2024@gmail.com', 
+                        subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - BlackDuck Tests Succesful!", 
+                        body: "BlackDuck Tests Successfull! Pipeline: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}"
+                    }
+                }
                 failure {
                     emailext (
                         to: 'dilumb2024@gmail.com', 
