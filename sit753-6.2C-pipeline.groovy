@@ -36,6 +36,14 @@ pipeline {
                 echo 'Analyzing code with SonarQube...' 
             }
             post {
+                  success {
+                    emailext (
+                        to: 'dilumb2024@gmail.com', 
+                        subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Code Analysis Passed!", 
+                        body: "Code analysis successful Pipeline: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}",
+                        attachLog: true // Attach the build log
+                    )
+                }
                 failure {
                     emailext (
                         to: 'dilumb2024@gmail.com', 
@@ -51,6 +59,13 @@ pipeline {
                 echo 'BlackDuck Scanning...' 
             }
             post {
+                 success {
+                    emailext (
+                        to: 'dilumb2024@gmail.com', 
+                        subject: "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - BlackDuck Scan Passed!", 
+                        body: "Security vulnerabilities check passed: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Runtime: ${currentBuild.durationString}",
+                        attachLog: true // Attach the build log
+                    )
                 failure {
                     emailext (
                         to: 'dilumb2024@gmail.com', 
